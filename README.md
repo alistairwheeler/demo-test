@@ -312,6 +312,12 @@ suppliers of products that can be ordered.
 | `demoSupUsrId` link to **`User`**                            | id                                       |          | yes       |          | User responsible of supplier                                                     |
 | _Ref. `demoSupUsrId.usr_login`_                              | _regexp(100)_                            |          |           | yes      | _Login_                                                                          |
 | `demoSupComments`                                            | notepad(50000)                           |          | yes       |          | Comments on supplier                                                             |
+| `demoSupAgendaId` link to **`Agenda`**                       | id                                       |          | yes       |          | -                                                                                |
+| _Ref. `demoSupAgendaId.agd_name`_                            | _regexp(100)_                            |          |           |          | -                                                                                |
+
+### Custom actions
+
+* `Action`: 
 
 `DemoProduct` business object definition
 ----------------------------------------
@@ -414,6 +420,17 @@ His address is geolocalized using GoogleMaps&reg; API.
 * `ProductSelect`: Selected supplier's product selection activity
 * `OrderCreate`: Order creation form activity
 * `End`: End activity
+
+`TestProcess` business process definition
+-----------------------------------------
+
+
+
+### Activities
+
+* `Begin`: 
+* `CreateProduct`: 
+* `End`: 
 
 `DemoCatalog` external object definition
 ----------------------------------------

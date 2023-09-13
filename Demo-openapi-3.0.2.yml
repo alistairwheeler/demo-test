@@ -122,8 +122,8 @@ components:
           type: string
           enum:
           - P
-          - V
           - H
+          - V
           - D
           - C
         demoOrdCliId__demoCliCode:
@@ -342,8 +342,8 @@ components:
           type: string
           enum:
           - P
-          - V
           - H
+          - V
           - D
           - C
         demoOrdQuantity:
@@ -579,8 +579,8 @@ components:
           type: string
           enum:
           - P
-          - V
           - H
+          - V
           - D
           - C
         demoCtcOrdId__demoOrdPrdId__demoPrdSupId:
@@ -614,17 +614,26 @@ components:
     DemoSupplier:
       type: object
       properties:
-        demoSupDescription:
-          description: Supplier description
+        demoSupAgendaId:
+          description: Demo sup agenda id
           type: string
         demoSupPhone:
           description: Supplier phone number
           type: string
-        demoSupCode:
-          description: Supplier unique code (e.g. `MYSUP`)
-          type: string
         demoSupName:
           description: Supplier name
+          type: string
+        demoSupAgendaId__agd_name:
+          description: Demo sup agenda id Name
+          type: string
+        demoSupUsrId:
+          description: User responsible of supplier
+          type: string
+        demoSupDescription:
+          description: Supplier description
+          type: string
+        demoSupCode:
+          description: Supplier unique code (e.g. `MYSUP`)
           type: string
         demoSupFax:
           description: Supplier fax number
@@ -635,9 +644,6 @@ components:
         demoSupLogo:
           description: Supplier logo
           type: object
-        demoSupUsrId:
-          description: User responsible of supplier
-          type: string
         row_id:
           description: Unique technical row ID
           type: string
@@ -779,6 +785,53 @@ paths:
         required: true
       tags:
       - DemoContact
+  /rest/DemoSupplier/{row_id}/action:Action:
+    get:
+      summary: Call a custom action for a DemoSupplier business object record or for
+        all records
+      security:
+      - bearerAuth: []
+      operationId: obj-demosupplier-action-action
+      responses:
+        '200':
+          description: Success in calling the custom action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionResult'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error401'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error500'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error404'
+      parameters:
+      - schema:
+          type: string
+        in: path
+        name: row_id
+        description: Row ID (or empty or _ for all row IDs)
+        required: true
+      tags:
+      - DemoSupplier
   /rest/DemoContact/{row_id}/publication:DemoContact-Mustache:
     get:
       summary: Call a custom publication for a DemoContact business object record
@@ -999,8 +1052,8 @@ paths:
           type: string
           enum:
           - P
-          - V
           - H
+          - V
           - D
           - C
         in: query
@@ -1197,6 +1250,18 @@ paths:
         in: query
         name: demoSupComments
         description: Search filter for Comments on supplier
+        required: false
+      - schema:
+          type: string
+        in: query
+        name: demoSupAgendaId
+        description: Search filter for Demo sup agenda id
+        required: false
+      - schema:
+          type: string
+        in: query
+        name: demoSupAgendaId__agd_name
+        description: Search filter for Demo sup agenda id Name
         required: false
       tags:
       - DemoSupplier
@@ -1674,8 +1739,8 @@ paths:
           type: string
           enum:
           - P
-          - V
           - H
+          - V
           - D
           - C
         in: query
@@ -2259,8 +2324,8 @@ paths:
           type: string
           enum:
           - P
-          - V
           - H
+          - V
           - D
           - C
         in: query

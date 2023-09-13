@@ -34,6 +34,16 @@ public class DemoProduct extends ObjectDB {
 	public static final String STOCK_FIELDNAME = "demoPrdStock";
 	public static final String INCREMENT_FIELDNAME = "demoPrdIncrement";
 
+@Override
+public void initCreate() {
+	if(isProcessInstance()){ //only apply if object is created via process
+		String bimId = getGrant().simpleQuery("select row_id from demo_supplier where sup_code = 'BIM'");
+		setFieldValue("demoPrdSupId", bimId);
+		populate(true);
+	}
+}
+
+
 	/** Init default increment */
 	@Override
 	public void initAction(Action action) {
@@ -46,7 +56,8 @@ public class DemoProduct extends ObjectDB {
 	/** Action: increase stock */
 	@BusinessObjectAction
 	public String increaseStock(Map<String, String> params) {
-		int q = Tool.parseInt(params.get(INCREMENT_FIELDNAME), DEFAULT_INCREMENT);
+		return Message.formatError(null, "Erreur", "trnPrdName");
+		/*int q = Tool.parseInt(params.get(INCREMENT_FIELDNAME), DEFAULT_INCREMENT);
 		if (q > 0) {
 			ObjectField s = getField(STOCK_FIELDNAME);
 			s.setValue(s.getInt(0) + q);
@@ -57,7 +68,7 @@ public class DemoProduct extends ObjectDB {
 			return Message.formatSimpleInfo("DEMO_PRD_STOCK_INCREASED:" + s.getValue());
 		} else {
 			return Message.formatSimpleError("DEMO_PRD_ERR_INCREMENT:" + q);
-		}
+		}*/
 	}
 
 	/** Action: decrease stock */

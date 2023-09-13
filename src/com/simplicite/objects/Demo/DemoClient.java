@@ -10,6 +10,7 @@ import com.simplicite.util.ObjectField;
 import com.simplicite.util.tools.GMapTool;
 import com.simplicite.util.tools.GMapTool.Location;
 import com.simplicite.util.tools.PhoneNumTool;
+import com.simplicite.util.tools.MailTool;
 
 /**
  * Customer business object
@@ -17,6 +18,12 @@ import com.simplicite.util.tools.PhoneNumTool;
 public class DemoClient extends ObjectDB {
 	private static final long serialVersionUID = 1L;
 
+	
+	@Override
+	public void initCreate() {
+		AppLog.info("coucou",null);
+	}
+	
 	@Override
 	public void postLoad() {
 		if (getGrant().hasResponsibility("DEMO_WEBSITE"))
@@ -25,6 +32,23 @@ public class DemoClient extends ObjectDB {
 				if (!f.isTechnicalField() && !"demoCliFirstname".equals(f.getName()) && !"demoCliLastname".equals(f.getName()))
 					f.setVisibility(ObjectField.VIS_FORBIDDEN);
 	}
+
+	@Override
+	public String postSave() {
+		
+		MailTool m = new MailTool();
+		m.setFrom("noemie.rossi@sciencespo.fr");
+		m.setSubject("coucou");
+		m.setContent("Hi");
+		m.addRcpt("noemie.rossi@sciencespo.fr");
+		
+		m.send();
+		
+		AppLog.info("hi", null);
+		
+		return null;
+	}
+
 
 	@Override
 	public List<String> postValidate() {

@@ -101,6 +101,44 @@ paths:
         required: true
       tags:
       - DemoContact
+  /rest/DemoSupplier/{row_id}/action:Action:
+    get:
+      summary: Call a custom action for a DemoSupplier business object record or for
+        all records
+      security:
+      - bearerAuth: []
+      produces:
+      - application/json
+      operationId: obj-demosupplier-action-action
+      responses:
+        '200':
+          schema:
+            $ref: '#/definitions/ActionResult'
+          description: Success in calling the custom action
+        '400':
+          schema:
+            $ref: '#/definitions/Error400'
+          description: Bad request
+        '401':
+          schema:
+            $ref: '#/definitions/Error401'
+          description: Unauthorized
+        '500':
+          schema:
+            $ref: '#/definitions/Error500'
+          description: Internal server error
+        '404':
+          schema:
+            $ref: '#/definitions/Error404'
+          description: Not found
+      parameters:
+      - in: path
+        name: row_id
+        description: Row ID (or empty or _ for all row IDs)
+        type: string
+        required: true
+      tags:
+      - DemoSupplier
   /rest/DemoContact/{row_id}/publication:DemoContact-Mustache:
     get:
       summary: Call a custom publication for a DemoContact business object record
@@ -291,8 +329,8 @@ paths:
         required: false
         enum:
         - P
-        - V
         - H
+        - V
         - D
         - C
       - in: query
@@ -453,6 +491,16 @@ paths:
       - in: query
         name: demoSupComments
         description: Search filter for Comments on supplier
+        type: string
+        required: false
+      - in: query
+        name: demoSupAgendaId
+        description: Search filter for Demo sup agenda id
+        type: string
+        required: false
+      - in: query
+        name: demoSupAgendaId__agd_name
+        description: Search filter for Demo sup agenda id Name
         type: string
         required: false
       tags:
@@ -856,8 +904,8 @@ paths:
         required: false
         enum:
         - P
-        - V
         - H
+        - V
         - D
         - C
       - in: query
@@ -1345,8 +1393,8 @@ paths:
         required: false
         enum:
         - P
-        - V
         - H
+        - V
         - D
         - C
       - in: query
@@ -3051,8 +3099,8 @@ definitions:
         type: string
         enum:
         - P
-        - V
         - H
+        - V
         - D
         - C
       demoOrdCliId__demoCliCode:
@@ -3271,8 +3319,8 @@ definitions:
         type: string
         enum:
         - P
-        - V
         - H
+        - V
         - D
         - C
       demoOrdQuantity:
@@ -3508,8 +3556,8 @@ definitions:
         type: string
         enum:
         - P
-        - V
         - H
+        - V
         - D
         - C
       demoCtcOrdId__demoOrdPrdId__demoPrdSupId:
@@ -3543,17 +3591,26 @@ definitions:
   DemoSupplier:
     type: object
     properties:
-      demoSupDescription:
-        description: Supplier description
+      demoSupAgendaId:
+        description: Demo sup agenda id
         type: string
       demoSupPhone:
         description: Supplier phone number
         type: string
-      demoSupCode:
-        description: Supplier unique code (e.g. `MYSUP`)
-        type: string
       demoSupName:
         description: Supplier name
+        type: string
+      demoSupAgendaId__agd_name:
+        description: Demo sup agenda id Name
+        type: string
+      demoSupUsrId:
+        description: User responsible of supplier
+        type: string
+      demoSupDescription:
+        description: Supplier description
+        type: string
+      demoSupCode:
+        description: Supplier unique code (e.g. `MYSUP`)
         type: string
       demoSupFax:
         description: Supplier fax number
@@ -3564,9 +3621,6 @@ definitions:
       demoSupLogo:
         description: Supplier logo
         type: object
-      demoSupUsrId:
-        description: User responsible of supplier
-        type: string
       row_id:
         description: Unique technical row ID
         type: string
